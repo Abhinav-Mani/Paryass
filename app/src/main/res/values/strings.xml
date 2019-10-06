@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PRAYAS</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">this fragment chat List</string>
+    <string name="hello_blank_fragment2">this fragment available books List</string>
+    <string name="hello_blank_fragment3">this fragment your book List</string>
 </resources>

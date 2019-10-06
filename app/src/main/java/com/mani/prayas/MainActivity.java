@@ -1,7 +1,12 @@
 package com.mani.prayas;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +20,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mani.prayas.NavigationFragments.BooksAvailable;
+import com.mani.prayas.NavigationFragments.Chats;
+import com.mani.prayas.NavigationFragments.YourBooks;
 import com.mani.prayas.Support.Login;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth.AuthStateListener authStateListener;
     FirebaseAuth mAuth;
+    BottomNavigationView bottomNavigation;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -69,9 +78,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+
+
+    }
+
+    private void init() {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mAuth=FirebaseAuth.getInstance();
+        bottomNavigation=findViewById(R.id.navigationView);
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        BooksAvailable booksAvailable=new BooksAvailable();
+        fragmentTransaction.add(R.id.container,booksAvailable);
+        fragmentTransaction.commit();
+        nav();
+
 
         //startActivity(new Intent(MainActivity.this, Login.class));
 
@@ -94,4 +116,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void nav() {
+
+        bottomNavigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+                FragmentManager fragmentManager=getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+
+                switch (menuItem.getItemId())
+                {
+                    case R.id.navigation_book:
+
+                        BooksAvailable booksAvailable=new BooksAvailable();
+                        fragmentTransaction.replace(R.id.container,booksAvailable);
+                        fragmentTransaction.commit();
+                        break;
+                    case R.id.navigation_addbook:
+
+                        YourBooks yourBooks=new YourBooks();
+                        fragmentTransaction.replace(R.id.container,yourBooks);
+                        fragmentTransaction.commit();
+                        break;
+                    case R.id.navigation_chat:
+
+                        Chats chats=new Chats();
+                        fragmentTransaction.replace(R.id.container,chats);
+                        fragmentTransaction.commit();
+                        break;
+
+                }
+
+            }
+        });
+    }
+
+
 }
