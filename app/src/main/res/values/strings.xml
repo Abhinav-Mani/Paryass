@@ -5,4 +5,11 @@
     <string name="hello_blank_fragment">this fragment chat List</string>
     <string name="hello_blank_fragment2">this fragment available books List</string>
     <string name="hello_blank_fragment3">this fragment your book List</string>
+    <string-array name="exam_type">
+        <item>JEE MAINS</item>
+        <item>JEE ADVANCED</item>
+        <item>GATE</item>
+        <item>NEET</item>
+        <item>AIIMS</item>
+    </string-array>
 </resources>

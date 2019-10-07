@@ -1,15 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Support.AddBooks">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text="THis is the place where books user can add the book they want to contibute"/>
+    tools:context=".Support.AddBooks"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/book_photo"
+            android:layout_width="414dp"
+            android:layout_height="268dp"
+            android:src="@mipmap/cam"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="4dp" />
+
+        <Button
+            android:id="@+id/capture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:onClick="capture"
+            android:text="capture"
+            android:background="@drawable/custom_butt"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="236dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="118dp"
+            android:layout_height="36dp"
+            android:text="Name-"
+            android:textSize="20dp"/>
+        <EditText
+            android:id="@+id/book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter the name of book">
+
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/nameAuthor"
+            android:layout_width="118dp"
+            android:layout_height="36dp"
+            android:text="Author-"
+            android:textSize="20dp"/>
+        <EditText
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter the name of author">
+
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/nameSubject"
+            android:layout_width="118dp"
+            android:layout_height="36dp"
+            android:text="Subject-"
+            android:textSize="20dp"/>
+        <EditText
+            android:id="@+id/subject_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter the name of subject">
+
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/nameExam"
+            android:layout_width="118dp"
+            android:layout_height="36dp"
+            android:text="Exam type-"
+            android:textSize="20dp"/>
+        <Spinner
+            android:id="@+id/exam_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Spinner>
+    </LinearLayout>
+</LinearLayout>
