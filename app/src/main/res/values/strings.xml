@@ -5,11 +5,184 @@
     <string name="hello_blank_fragment">this fragment chat List</string>
     <string name="hello_blank_fragment2">this fragment available books List</string>
     <string name="hello_blank_fragment3">this fragment your book List</string>
+    <string-array name="select">
+        <item>SELECT SUBJECT</item>
+    </string-array>
+    <string-array name="empty">
+        <item>OTHERS</item>
+    </string-array>
+    <string-array name="rating">
+        <item>REUSABILITY RATING</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
     <string-array name="exam_type">
+        <item>SELECT EXAM</item>
         <item>JEE MAINS</item>
         <item>JEE ADVANCED</item>
         <item>GATE</item>
         <item>NEET</item>
         <item>AIIMS</item>
+        <item>ICSE</item>
+        <item>ISC</item>
+        <item>CBSE(10)</item>
+        <item>CBSE(12)</item>
+        <item>CAT</item>
+        <item>XAT</item>
+        <item>UPSC</item>
+        <item>NDA</item>
+        <item>OTHERS</item>
     </string-array>
+
+    <string-array name="jee_mains_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>MATHS</item>
+        <item>CHEMISTRY</item>
+        <item>PHYSICS</item>
+    </string-array>
+    <string-array name="icse_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>MATHS</item>
+        <item>SCIENCE</item>
+        <item>ECONOMICS</item>
+        <item>SOCIAL STUDIES</item>
+        <item>ENGLISH</item>
+        <item>COMPUTER APPLICATIONS</item>
+        <item>OTHERS</item>
+    </string-array>
+    <string-array name="cat_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>QUANTITATIVE APTITUDE</item>
+        <item>VERBAL ABILITY</item>
+        <item>COMPREHENSION</item>
+        <item>LOGICAL REASONING</item>
+        <item>DATA INTERPRETATION</item>
+        <item>COMPUTER APPLICATIONS</item>
+        <item>OTHERS</item>
+    </string-array>
+    <string-array name="xat_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>QUANTITATIVE APTITUDE</item>
+        <item>VERBAL ABILITY</item>
+        <item>COMPREHENSION</item>
+        <item>LOGICAL REASONING</item>
+        <item>DATA INTERPRETATION</item>
+        <item>COMPUTER APPLICATIONS</item>
+        <item>OTHERS</item>
+    </string-array>
+    <string-array name="cbse_10_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>MATHS</item>
+        <item>SCIENCE</item>
+        <item>SOCIAL STUDIES</item>
+        <item>ENGLISH</item>
+        <item>COMPUTER APPLICATIONS</item>
+        <item>SANSKRIT</item>
+        <item>OTHERS</item>
+        <item></item>
+    </string-array>
+    <string-array name="cbse_12_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>MATHS</item>
+        <item>PHYSICS</item>
+        <item>CHEMISTRY</item>
+        <item>BIO</item>
+        <item>ECONOMICS</item>
+        <item>HISTORY</item>
+        <item>ENGLISH</item>
+        <item>PHYSICAL EDUCATION</item>
+        <item>INFORMATION PRACTICES</item>
+        <item>COMPUTER SCIENCE</item>
+        <item>FINE ARTS</item>
+        <item>SANSKRIT</item>
+        <item>OTHERS</item>
+        <item></item>
+    </string-array>
+    <string-array name="upsc_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>HISTORY</item>
+        <item>GEOGRAPHY</item>
+        <item>GOVERNANCE</item>
+        <item>CONSTITUTION</item>
+        <item>POLITY</item>
+        <item>SOCIAL JUSTICE</item>
+        <item>INTERNATIONAL RELATIONS</item>
+        <item>TECHNOLOGY</item>
+        <item>ECONOMIC DEVELOPMENT</item>
+        <item>ENVIRONMENT</item>
+        <item>APTITUDE</item>
+        <item>DISASTER MANAGEMENT</item>
+        <item>OTHERS</item>
+        <item></item>
+    </string-array>
+    <string-array name="isc_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>MATHS</item>
+        <item>PHYSICS</item>
+        <item>CHEMISTRY</item>
+        <item>BIO</item>
+        <item>ECONOMICS</item>
+        <item>HISTORY</item>
+        <item>ENGLISH</item>
+        <item>PHYSICAL EDUCATION</item>
+        <item>INFORMATION PRACTICES</item>
+        <item>COMPUTER SCIENCE</item>
+        <item>FINE ARTS</item>
+        <item>SANSKRIT</item>
+        <item>OTHERS</item>
+        <item></item>
+    </string-array>
+    <string-array name="nda_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>ALGEBRA</item>
+        <item>CALCULUS</item>
+        <item>TRIGONOMETRY</item>
+        <item>STATISTICS</item>
+    </string-array>
+    <string-array name="jee_advanced_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>MATHS</item>
+        <item>CHEMISTRY</item>
+        <item>PHYSICS</item>
+    </string-array>
+    <string-array name="neet_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>ZOOLOGY</item>
+        <item>BOTANY</item>
+        <item>CHEMISTRY</item>
+        <item>PHYSICS</item>
+    </string-array>
+    <string-array name="aiims_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>ZOOLOGY</item>
+        <item>BOTANY</item>
+        <item>CHEMISTRY</item>
+        <item>PHYSICS</item>
+    </string-array>
+    <string-array name="gate_subjects">
+        <item>SELECT SUBJECT</item>
+        <item>ECE</item>
+        <item>CSE</item>
+        <item>MECHANICAL</item>
+        <item>ELECTRICAL</item>
+        <item>CIVIL</item>
+        <item>AEROSPACE</item>
+        <item>AGRICULTURAL</item>
+        <item>ARCHITECTURE AND PLANNING</item>
+        <item>BIOMEDICAL</item>
+        <item>BIOTECHNOLOGY</item>
+        <item>CHEMICAL</item>
+        <item>GEOLOGY AND PHYSICS</item>
+        <item>CHEMISTRY</item>
+    </string-array>
+
 </resources>

@@ -18,7 +18,7 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addbooks"
             android:layout_width="wrap_content"
-
+            android:src="@drawable/floating"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/cardview_compat_inset_shadow"
             android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
