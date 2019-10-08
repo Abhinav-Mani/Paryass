@@ -26,7 +26,7 @@ public class AddBooks extends AppCompatActivity {
     ArrayAdapter exam,rate,sub;
     ImageView book_photo,img1,img2,img3;
     TextView publish;
-
+    ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
     DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Override
@@ -34,12 +34,37 @@ public class AddBooks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.mani.prayas.R.layout.activity_add_books);
         init();
+        expand();
+        spinnerExamAndRating();
+        setSubjects();
+        dateChange();
+
+    }
+    public void init()
+    {
+        exam_type=findViewById(R.id.exam_type);
+        book_photo=findViewById(R.id.book_photo);
+        rating=findViewById(R.id.reuse_rating);
+        subject=findViewById(R.id.subjectNames);
+        publish=findViewById(R.id.publish_date);
+        img1=findViewById(R.id.image_one);
+        img2=findViewById(R.id.image_two);
+        img3=findViewById(R.id.image_three);
+        expandableTextView=findViewById(R.id.reuse);
+        expandableTextView2=findViewById(R.id.pics);
+        expandableTextView3=findViewById(R.id.privacy);
+    }
+    public void spinnerExamAndRating()
+    {
         exam=ArrayAdapter.createFromResource(this,R.array.exam_type,android.R.layout.simple_spinner_item);
         exam.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         exam_type.setAdapter(exam);
         rate=ArrayAdapter.createFromResource(this,R.array.rating,android.R.layout.simple_spinner_item);
         rate.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         rating.setAdapter(rate);
+    }
+    public void setSubjects()
+    {
         exam_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -114,16 +139,7 @@ public class AddBooks extends AppCompatActivity {
 
 
                 }
-                dateSetListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        month = month + 1;
-                        // Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
 
-                        String date = month + "/" + year;
-                        publish.setText(date);
-                    }
-                };
             }
 
             @Override
@@ -132,18 +148,16 @@ public class AddBooks extends AppCompatActivity {
             }
         });
     }
-    public void init()
+    public void expand()
     {
-        exam_type=findViewById(R.id.exam_type);
-        book_photo=findViewById(R.id.book_photo);
-        rating=findViewById(R.id.reuse_rating);
-        subject=findViewById(R.id.subjectNames);
-        publish=findViewById(R.id.publish_date);
-        img1=findViewById(R.id.image_one);
-        img2=findViewById(R.id.image_two);
-        img3=findViewById(R.id.image_three);
-
+        String reusee="Tap to know more:The reusability scale is the measure of state of book.Rate your product on a scale of 1-10 sighting its present condition.It should be filled with honesty.A new book has a rating of 10 while a book more than 10 years old has a scale of 1";
+        expandableTextView.setText(reusee);
+        String pic="Tap to know more:Please add three photos of different pages of the book.These photos will be accessible by the customers.";
+        expandableTextView2.setText(pic);
+        String priv="We have access to your email,your location,your search history.This is in order to provide you a better user experience and more features.We do not share these critical informations specifically with any third party without your permissions but we use these data for a better app experience.You allow us to have access to these data.";
+        expandableTextView3.setText(priv);
     }
+
     public void date(View view)
     {
         Calendar cal = Calendar.getInstance();
@@ -159,6 +173,19 @@ public class AddBooks extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         dialog.show();
 
+    }
+    public void dateChange()
+    {
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                // Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+
+                String date = month + "/" + year;
+                publish.setText(date);
+            }
+        };
     }
 
 

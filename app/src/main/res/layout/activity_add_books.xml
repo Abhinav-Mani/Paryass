@@ -53,9 +53,22 @@
 
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
+                android:layout_marginTop="40dp"
+                android:layout_width="340dp"
+                android:layout_marginLeft="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_height="wrap_content">
+                <com.mani.prayas.Support.ExpandableTextView
+                    android:id="@+id/pics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.mani.prayas.Support.ExpandableTextView>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
                 android:layout_width="340dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 app:cardCornerRadius="10dp">
                 <LinearLayout
@@ -119,6 +132,7 @@
                         android:backgroundTint="#d3d3d3"
                         android:id="@+id/book_name"
                         android:textColor="#000000"
+                        android:inputType="text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter the name of book">
@@ -130,6 +144,7 @@
                         android:layout_marginBottom="40dp"
                         android:id="@+id/author_name"
                         android:textColor="#000000"
+                        android:inputType="text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter the name of author">
@@ -207,6 +222,13 @@
                         android:layout_height="wrap_content">
 
                     </Spinner>
+                    <com.mani.prayas.Support.ExpandableTextView
+                       android:id="@+id/reuse"
+                        android:text="..."
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.mani.prayas.Support.ExpandableTextView>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
@@ -264,6 +286,45 @@
 
 
 
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <CheckBox
+                        android:id="@+id/privacy_policy"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp">
+
+                    </CheckBox>
+                    <CheckedTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="You agree to our Terms of Use and Privacy policy">
+
+                    </CheckedTextView>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="10dp"
+                android:layout_width="340dp"
+                android:layout_marginLeft="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_height="wrap_content">
+                <com.mani.prayas.Support.ExpandableTextView
+                    android:id="@+id/privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.mani.prayas.Support.ExpandableTextView>
             </android.support.v7.widget.CardView>
             <Button
                 android:layout_marginTop="40dp"
