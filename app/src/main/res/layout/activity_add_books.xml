@@ -12,90 +12,341 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/book_photo"
-            android:layout_width="414dp"
-            android:layout_height="268dp"
-            android:src="@mipmap/cam"
-            tools:layout_editor_absoluteX="40dp"
-            tools:layout_editor_absoluteY="4dp" />
 
-        <Button
-            android:id="@+id/capture"
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:onClick="capture"
-            android:text="capture"
-            android:background="@drawable/custom_butt"
-            tools:layout_editor_absoluteX="35dp"
-            tools:layout_editor_absoluteY="236dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="118dp"
-            android:layout_height="36dp"
-            android:text="Name-"
-            android:textSize="20dp"/>
-        <EditText
-            android:id="@+id/book_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter the name of book">
+            <android.support.v7.widget.CardView
+                android:layout_width="340dp"
+                android:layout_height="400dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="60dp"
+                app:cardCornerRadius="10dp">
 
-        </EditText>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/nameAuthor"
-            android:layout_width="118dp"
-            android:layout_height="36dp"
-            android:text="Author-"
-            android:textSize="20dp"/>
-        <EditText
-            android:id="@+id/author_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter the name of author">
+                <ImageView
+                    android:id="@+id/book_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="357dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/white"
+                    android:onClick="capture"
+                    android:src="@drawable/cam"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="4dp" />
 
-        </EditText>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/nameSubject"
-            android:layout_width="118dp"
-            android:layout_height="36dp"
-            android:text="Subject-"
-            android:textSize="20dp"/>
-        <EditText
-            android:id="@+id/subject_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter the name of subject">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="                  ADD BOOK COVER"
+                    android:textColor="#3895d3"
+                    android:textSize="20dp"
+                    android:textStyle="bold">
 
-        </EditText>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/nameExam"
-            android:layout_width="118dp"
-            android:layout_height="36dp"
-            android:text="Exam type-"
-            android:textSize="20dp"/>
-        <Spinner
-            android:id="@+id/exam_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                </TextView>
 
-        </Spinner>
-    </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="40dp"
+                android:layout_width="340dp"
+                android:layout_marginLeft="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_height="wrap_content">
+                <com.mani.prayas.Support.ExpandableTextView
+                    android:id="@+id/pics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.mani.prayas.Support.ExpandableTextView>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="340dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                app:cardCornerRadius="10dp">
+                <LinearLayout
+                    android:layout_width="340dp"
+                    android:layout_height="150dp">
+                    <ImageView
+                        android:id="@+id/image_one"
+                        android:layout_width="110dp"
+                        android:onClick="image1"
+                        android:src="@drawable/capture"
+                        android:layout_height="150dp">
+
+                    </ImageView>
+                    <ImageView
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/image_two"
+                        android:src="@drawable/capture"
+                        android:layout_width="110dp"
+                        android:onClick="image2"
+                        android:layout_height="150dp">
+
+                    </ImageView>
+                    <ImageView
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/image_three"
+                        android:layout_width="110dp"
+                        android:src="@drawable/capture"
+                        android:onClick="image3"
+                        android:layout_height="150dp">
+
+                    </ImageView>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="335dp"
+                android:layout_height="250dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp"
+                >
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_margin="10dp"
+                        android:background="#d3d3d3"
+                        />
+
+
+
+
+
+                    <EditText
+                        android:layout_marginTop="20dp"
+                        android:backgroundTint="#d3d3d3"
+                        android:id="@+id/book_name"
+                        android:textColor="#000000"
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter the name of book">
+
+                    </EditText>
+                    <EditText
+                        android:backgroundTint="#d3d3d3"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="40dp"
+                        android:id="@+id/author_name"
+                        android:textColor="#000000"
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter the name of author">
+
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/publish_date"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30dp"
+                        android:onClick="date"
+                        android:textSize="18sp"
+                        android:text="Select publish date">
+
+                    </TextView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#d3d3d3"
+                        />
+
+
+
+
+
+
+                </LinearLayout>
+
+
+
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_margin="10dp"
+                        android:background="#d3d3d3"/>
+
+                    <Spinner
+                        android:layout_marginLeft="60dp"
+                        android:id="@+id/subjectNames"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </Spinner>
+                    <Spinner
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="40dp"
+                        android:id="@+id/exam_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </Spinner>
+                    <Spinner
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="40dp"
+                        android:id="@+id/reuse_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </Spinner>
+                    <com.mani.prayas.Support.ExpandableTextView
+                       android:id="@+id/reuse"
+                        android:text="..."
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.mani.prayas.Support.ExpandableTextView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_margin="10dp"
+                        android:background="#d3d3d3"
+                        />
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="335dp"
+                android:layout_height="117dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                app:cardCornerRadius="10dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_margin="10dp"
+                    android:background="#d3d3d3"/>
+
+                <RadioGroup
+                    android:layout_width="330dp"
+                    android:layout_height="101dp">
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/donate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Donate">
+
+                    </android.support.v7.widget.AppCompatRadioButton>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/sell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Sell">
+
+                    </android.support.v7.widget.AppCompatRadioButton>
+                </RadioGroup>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_margin="10dp"
+                    android:background="#d3d3d3"/>
+
+
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <CheckBox
+                        android:id="@+id/privacy_policy"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp">
+
+                    </CheckBox>
+                    <CheckedTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="You agree to our Terms of Use and Privacy policy">
+
+                    </CheckedTextView>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="10dp"
+                android:layout_width="340dp"
+                android:layout_marginLeft="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_height="wrap_content">
+                <com.mani.prayas.Support.ExpandableTextView
+                    android:id="@+id/privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.mani.prayas.Support.ExpandableTextView>
+            </android.support.v7.widget.CardView>
+            <Button
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADD BOOK"
+
+                android:textColor="@color/white"
+                android:background="#3895d3">
+
+            </Button>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
 </LinearLayout>
