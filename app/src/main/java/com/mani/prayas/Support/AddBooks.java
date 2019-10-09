@@ -10,8 +10,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.renderscript.Sampler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -30,10 +32,20 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
+import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class AddBooks extends AppCompatActivity {
     Spinner exam_type,rating,subject;
@@ -45,6 +57,13 @@ public class AddBooks extends AppCompatActivity {
     RadioButton donate,sell;
     CheckBox privacy;
     private int flag=0;
+    FirebaseAuth auth;
+    private String verificationCode;
+
+
+
+    OnVerificationStateChangedCallbacks mCallbacks;
+
 
     private Camera mCamera;
     ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
@@ -54,7 +73,7 @@ public class AddBooks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.mani.prayas.R.layout.activity_add_books);
-
+       // StartFirebaseLogin();
         init();
         expand();
         spinnerExamAndRating();
@@ -62,6 +81,9 @@ public class AddBooks extends AppCompatActivity {
         dateChange();
 
     }
+
+
+
     public void init()
     {
         exam_type=findViewById(R.id.exam_type);
@@ -213,13 +235,16 @@ public class AddBooks extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                // Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
-
                 String date = month + "/" + year;
                 publish.setText(date);
             }
         };
     }
+
+
+
+
+
     public void validate()
     {
         if(name.getText().toString().isEmpty())
@@ -269,17 +294,22 @@ public class AddBooks extends AppCompatActivity {
     {
         validate();
 
+
+
+
+
+
     }
 
 
     public void capture(View view) {
 
-
+        flag=1;
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager())!=null)
         {
             startActivityForResult(intent,0);
-            flag=1;
+
         }
 
 
