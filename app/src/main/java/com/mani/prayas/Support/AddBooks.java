@@ -339,19 +339,26 @@ public class AddBooks extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap b = (Bitmap) data.getExtras().get("data");
-        switch (requestCode){
-            case 0: book_photo.setImageBitmap(b);
-                break;
-            case 1:img1.setImageBitmap(b);
-                break;
-            case 2:
-                img2.setImageBitmap(b);
-                break;
-            case 3:
-                img3.setImageBitmap(b);
-                break;
+        Bitmap b;
+        if(data!=null) {
+            b = (Bitmap) data.getExtras().get("data");
+            switch (requestCode) {
+                case 0:
+                    book_photo.setImageBitmap(b);
+                    break;
+                case 1:
+                    img1.setImageBitmap(b);
+                    break;
+                case 2:
+                    img2.setImageBitmap(b);
+                    break;
+                case 3:
+                    img3.setImageBitmap(b);
+                    break;
+            }
+
         }
+
 
     }
 }
