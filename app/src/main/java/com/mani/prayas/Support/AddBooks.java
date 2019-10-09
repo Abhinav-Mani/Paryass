@@ -5,12 +5,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
@@ -44,36 +47,39 @@ import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCall
 import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class AddBooks extends AppCompatActivity {
     Spinner exam_type,rating,subject;
     ArrayAdapter exam,rate,sub;
     ImageView book_photo,img1,img2,img3;
-    TextView publish,exam_error,sub_error,reuse_error,radio_error;
+    TextView publish,exam_error,sub_error,reuse_error,radio_error,book_error;
     TextInputEditText name,author;
     TextInputLayout name_layout,author_layout;
     RadioButton donate,sell;
     CheckBox privacy;
     private int flag=0;
-    FirebaseAuth auth;
-    private String verificationCode;
-
-
-
-    OnVerificationStateChangedCallbacks mCallbacks;
-
-
     private Camera mCamera;
     ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
     DatePickerDialog.OnDateSetListener dateSetListener;
+
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.mani.prayas.R.layout.activity_add_books);
-       // StartFirebaseLogin();
+
         init();
         expand();
         spinnerExamAndRating();
@@ -108,6 +114,7 @@ public class AddBooks extends AppCompatActivity {
         sell=findViewById(R.id.sell);
         radio_error=findViewById(R.id.radio_error);
         privacy=findViewById(R.id.privacy_policy);
+        book_error=findViewById(R.id.book_error);
     }
     public void spinnerExamAndRating()
     {
@@ -283,11 +290,19 @@ public class AddBooks extends AppCompatActivity {
 
         if(flag==0)
         {
-            Snackbar snackbar=Snackbar.make(add, "Add the book cover photo", Snackbar.LENGTH_LONG);
+            book_error.setError("Cover photo is mandatory");
+
+        }
+        else
+            book_error.setError(null);
+        if(privacy.isChecked()==false)
+        {
+            Snackbar snackbar=Snackbar.make(add, "Agree to our privacy policy to proceed", Snackbar.LENGTH_LONG);
             View snak=snackbar.getView();
             snak.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.blue));
             snackbar.show();
         }
+
 
     }
     public void submit(View view)
@@ -305,7 +320,8 @@ public class AddBooks extends AppCompatActivity {
     public void capture(View view) {
 
         flag=1;
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager())!=null)
         {
             startActivityForResult(intent,0);
@@ -339,12 +355,14 @@ public class AddBooks extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap b;
-        if(data!=null) {
-            b = (Bitmap) data.getExtras().get("data");
+
+
+            if(data!=null){
+                Bitmap b=(Bitmap) data.getExtras().get("data");
             switch (requestCode) {
                 case 0:
-                    book_photo.setImageBitmap(b);
+
+                   book_photo.setImageBitmap(b);
                     break;
                 case 1:
                     img1.setImageBitmap(b);
@@ -357,8 +375,8 @@ public class AddBooks extends AppCompatActivity {
                     break;
             }
 
-        }
+        }}
 
 
     }
-}
+
