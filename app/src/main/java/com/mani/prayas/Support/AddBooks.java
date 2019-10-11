@@ -55,15 +55,15 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class AddBooks extends AppCompatActivity {
-    Spinner exam_type,rating,subject;
-    ArrayAdapter exam,rate,sub;
+    Spinner exam_type,rating,subject,state,city;
+    ArrayAdapter exam,rate,sub,stat,cit;
     ImageView book_photo,img1,img2,img3;
-    TextView publish,exam_error,sub_error,reuse_error,radio_error,book_error;
+    TextView publish,exam_error,sub_error,reuse_error,radio_error,book_error,date_error,state_error,city_error;
     TextInputEditText name,author;
     TextInputLayout name_layout,author_layout;
     RadioButton donate,sell;
     CheckBox privacy;
-    private int flag=0;
+    private int flag=0,dater=0;
     private Camera mCamera;
     ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
     DatePickerDialog.OnDateSetListener dateSetListener;
@@ -80,7 +80,9 @@ public class AddBooks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.mani.prayas.R.layout.activity_add_books);
 
+
         init();
+        setCity();
         expand();
         spinnerExamAndRating();
         setSubjects();
@@ -109,21 +111,190 @@ public class AddBooks extends AppCompatActivity {
         author_layout=findViewById((R.id.author_name_layout));
         exam_error=findViewById(R.id.exam_error);
         sub_error=findViewById(R.id.sub_error);
+        date_error=findViewById(R.id.date_error);
         reuse_error=findViewById(R.id.reuse_error);
         donate=findViewById(R.id.donate);
         sell=findViewById(R.id.sell);
         radio_error=findViewById(R.id.radio_error);
         privacy=findViewById(R.id.privacy_policy);
         book_error=findViewById(R.id.book_error);
+        state=findViewById(R.id.state);
+        city=findViewById(R.id.city);
+        state_error=findViewById(R.id.state_error);
+        city_error=findViewById(R.id.city_error);
     }
     public void spinnerExamAndRating()
     {
         exam=ArrayAdapter.createFromResource(this,R.array.exam_type,android.R.layout.simple_spinner_item);
         exam.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         exam_type.setAdapter(exam);
+        stat=ArrayAdapter.createFromResource(this,R.array.state_list,android.R.layout.simple_spinner_item);
+        stat.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        state.setAdapter(stat);
         rate=ArrayAdapter.createFromResource(this,R.array.rating,android.R.layout.simple_spinner_item);
         rate.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         rating.setAdapter(rate);
+    }
+    public void setCity()
+    {
+        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position)
+                { case 0:
+                    cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.selectCity,android.R.layout.simple_spinner_item);
+                    cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    city.setAdapter(cit);
+                    break;
+
+                    case 1:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.andhra_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+
+                    case 2:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.arunachal_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 3:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.assam_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 4:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.Bihar,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 5:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.Chhatisgarh,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 6: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.goa_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 7: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.gujarat_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 8: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.haryana_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 9: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.himachal_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 10: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.jammu_and_kashmir_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 11: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.jharkhand_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 12: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.karnataka_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 13: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.kerala_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 14: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.madhya_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 15: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.maharashtra_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 16: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.manipur_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 17: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.meghalaya_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 18: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.mizoram_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 19: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.nagaland_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 20: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.odisha_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 21: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.punjab_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 22: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.rajasthan_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 23: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.sikkim_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 24: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.tamil_nadu_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 25:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.telangana_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 26:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.tripura_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 27:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.uttar_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 28:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.uttrakhand_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 29:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.west_bengal_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     public void setSubjects()
     {
@@ -238,12 +409,14 @@ public class AddBooks extends AppCompatActivity {
     }
     public void dateChange()
     {
+
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String date = month + "/" + year;
                 publish.setText(date);
+                dater=1;
             }
         };
     }
@@ -281,11 +454,27 @@ public class AddBooks extends AppCompatActivity {
         }
         else
             reuse_error.setError(null);
+        if(state.getSelectedItem().toString().equals("SELECT STATE")) {
+            // reuse_error.setTextColor(Color.RED);
+            state_error.setError("Exam type not selected");
+        }
+        else
+            state_error.setError(null);
+        if(city.getSelectedItem().toString().equals("SELECT CITY")) {
+            // reuse_error.setTextColor(Color.RED);
+            city_error.setError("Exam type not selected");
+        }
+        else
+            city_error.setError(null);
         if(donate.isChecked()==false&&sell.isChecked()==false)
             radio_error.setError("sels");
         else
             radio_error.setError(null);
         LinearLayout add=findViewById(R.id.add_book);
+        if(dater==0)
+        date_error.setError("jai hind");
+        else
+            date_error.setError(null);
 
 
         if(flag==0)
@@ -361,7 +550,6 @@ public class AddBooks extends AppCompatActivity {
                 Bitmap b=(Bitmap) data.getExtras().get("data");
             switch (requestCode) {
                 case 0:
-
                    book_photo.setImageBitmap(b);
                     break;
                 case 1:
