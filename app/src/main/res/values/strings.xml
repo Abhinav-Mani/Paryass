@@ -363,7 +363,7 @@
         <item>Pundri</item>
         <item>Kosli</item>
     </string-array>
-    <string-array name= "himachal_pradesh_cities">
+    <string-array name="himachal_pradesh_cities">
         <item>SELECT CITY</item>
         <item>Bilaspur</item>
         <item>Chamba</item>
@@ -810,65 +810,65 @@
 
     <string-array name="state_list">
 
-<item>SELECT STATE</item>
-<item>Andhra Pradesh</item>
+        <item>SELECT STATE</item>
+        <item>Andhra Pradesh</item>
 
-<item>Arunachal Pradesh</item>
+        <item>Arunachal Pradesh</item>
 
-<item>Assam</item>
+        <item>Assam</item>
 
-<item>Bihar</item>
+        <item>Bihar</item>
 
-<item>Chhattisgarh</item>
+        <item>Chhattisgarh</item>
 
-<item>Goa</item>
+        <item>Goa</item>
 
-<item>Gujarat</item>
+        <item>Gujarat</item>
 
-<item>Haryana</item>
+        <item>Haryana</item>
 
-<item>Himachal Pradesh</item>
+        <item>Himachal Pradesh</item>
 
-<item>Jammu and Kashmir</item>
+        <item>Jammu and Kashmir</item>
 
-<item>Jharkhand</item>
+        <item>Jharkhand</item>
 
-<item>Karnataka</item>
+        <item>Karnataka</item>
 
-<item>Kerala</item>
+        <item>Kerala</item>
 
-<item>Madhya Pradesh</item>
+        <item>Madhya Pradesh</item>
 
-<item>Maharashtra</item>
+        <item>Maharashtra</item>
 
-<item>Manipur</item>
+        <item>Manipur</item>
 
-<item>Meghalaya</item>
+        <item>Meghalaya</item>
 
-<item>Mizoram</item>
+        <item>Mizoram</item>
 
-<item>Nagaland</item>
+        <item>Nagaland</item>
 
-<item>Odisha</item>
+        <item>Odisha</item>
 
-<item>Punjab</item>
+        <item>Punjab</item>
 
-<item>Rajasthan</item>
+        <item>Rajasthan</item>
 
-<item>Sikkim</item>
+        <item>Sikkim</item>
 
-<item>Tamil Nadu</item>
+        <item>Tamil Nadu</item>
 
-<item>Telangana</item>
+        <item>Telangana</item>
 
-<item>Tripura</item>
+        <item>Tripura</item>
 
-<item>Uttar Pradesh</item>
+        <item>Uttar Pradesh</item>
 
-<item>Uttarakhand</item>
+        <item>Uttarakhand</item>
 
-<item>West Bengal</item>
+        <item>West Bengal</item>
 
-</string-array>
+    </string-array>
 
 </resources>

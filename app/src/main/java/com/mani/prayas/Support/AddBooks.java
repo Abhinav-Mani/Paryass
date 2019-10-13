@@ -130,6 +130,7 @@ public class AddBooks extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mainImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
+      //  Toast.makeText(this,"Hii in",Toast.LENGTH_LONG).show();
 
         UploadTask mainImageUpload=mStorageRef.child("Cover").putBytes(data);
         mainImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -618,7 +619,7 @@ public class AddBooks extends AppCompatActivity {
     public void submit(View view)
     {
         if(validate()) {
-            Toast.makeText(this, "done", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "done", Toast.LENGTH_LONG).show();
             upload();
         }
 

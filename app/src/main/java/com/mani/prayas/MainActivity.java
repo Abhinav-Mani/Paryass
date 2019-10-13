@@ -1,9 +1,7 @@
 package com.mani.prayas;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Switch;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mani.prayas.NavigationFragments.BooksAvailable;
 import com.mani.prayas.NavigationFragments.Chats;
+import com.mani.prayas.NavigationFragments.Ebooks;
 import com.mani.prayas.NavigationFragments.YourBooks;
 import com.mani.prayas.Support.Login;
 
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater=getMenuInflater();
         menuInflater.inflate(R.menu.main_activity_menu,menu);
+
         return true;
     }
 
@@ -119,22 +118,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void nav() {
 
-        bottomNavigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 FragmentManager fragmentManager=getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
 
                 switch (menuItem.getItemId())
                 {
                     case R.id.navigation_book:
-
                         BooksAvailable booksAvailable=new BooksAvailable();
                         fragmentTransaction.replace(R.id.container,booksAvailable);
                         fragmentTransaction.commit();
                         break;
                     case R.id.navigation_addbook:
-
                         YourBooks yourBooks=new YourBooks();
                         fragmentTransaction.replace(R.id.container,yourBooks);
                         fragmentTransaction.commit();
@@ -145,8 +145,15 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.container,chats);
                         fragmentTransaction.commit();
                         break;
+                    case R.id.ebooks:
+                        Ebooks ebooks=new Ebooks();
+                        fragmentTransaction.replace(R.id.container,ebooks);
+                        fragmentTransaction.commit();
+                        break;
+
 
                 }
+                return true;
 
             }
         });

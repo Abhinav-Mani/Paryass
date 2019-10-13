@@ -237,7 +237,7 @@
                         </Spinner>
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_marginTop="40dp"
+                            android:layout_marginTop="10dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/exam_error">
 
@@ -257,6 +257,7 @@
 
                         </Spinner>
                         <TextView
+                            android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_height="wrap_content"
