@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -37,6 +38,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,14 +47,22 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class AddBooks extends AppCompatActivity {
@@ -64,10 +75,109 @@ public class AddBooks extends AppCompatActivity {
     RadioButton donate,sell;
     CheckBox privacy;
     private int flag=0,dater=0;
+    String key;
     private Camera mCamera;
     ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
     boolean valid=true;
     DatePickerDialog.OnDateSetListener dateSetListener;
+
+
+    //upload@abhinavmani
+
+    private StorageReference mStorageRef;
+    private FirebaseDatabase database ;
+    private DatabaseReference myRef,databaseReference;
+
+
+
+
+    void upload()
+    {
+        String bookName="",authorName="",PublishDate="",subject="",exam="",city=this.city.getSelectedItem().toString(),
+                resusabilityRating="",pref="sell";
+        bookName=name.getText().toString();
+        authorName=author.getText().toString().trim();
+        exam=exam_type.getSelectedItem().toString();
+        subject=this.subject.getSelectedItem().toString();
+        resusabilityRating=rating.getSelectedItem().toString();
+        if(donate.isChecked())
+            pref="donate";
+        Bitmap mainImage=((BitmapDrawable)book_photo.getDrawable()).getBitmap();
+        String emailid=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+
+        Log.e("ak47", "upload: " );
+        final Map<String,Object> bookdata=new HashMap<>();
+        bookdata.put("Email",emailid);
+        bookdata.put("Title",bookName);
+        bookdata.put("Author",authorName);
+        bookdata.put("DateOFPublish",PublishDate);
+        bookdata.put("Subject",subject);
+        bookdata.put("Exam",exam);
+        bookdata.put("Rating",resusabilityRating);
+        bookdata.put("Pref",pref);
+
+        final Uri[] imguri = new Uri[4];
+
+        mStorageRef= FirebaseStorage.getInstance().getReference().child(key);
+        database = FirebaseDatabase.getInstance();
+        databaseReference=database.getReference();
+        myRef = databaseReference.child(city).child(key);
+
+
+        databaseReference.child(emailid.substring(0,emailid.indexOf('@'))).child(city).setValue(key);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        mainImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask mainImageUpload=mStorageRef.child("Cover").putBytes(data);
+        mainImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.e("ak47", "onSuccess: upload sucess" );
+                mStorageRef.child("Cover").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imguri[0] =uri;
+                        bookdata.put("Cover",String.valueOf(imguri[0]));
+                        Log.e("ak47", "onSuccess: "+String.valueOf(imguri[0]) );
+                        myRef.updateChildren(bookdata).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AddBooks.this,"Upload Sucess",Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddBooks.this,"UploadFailed",Toast.LENGTH_LONG).show();
+                                Log.e("ak47", "onFailure: upload" );
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddBooks.this,"Couldnot Fetch uri",Toast.LENGTH_LONG).show();
+                                Log.e("ak47", "onFailure: uri" );
+                            }
+                        });
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddBooks.this,"Aww! Snap !!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
+
+
+    }
 
 
 
@@ -95,6 +205,8 @@ public class AddBooks extends AppCompatActivity {
 
     public void init()
     {
+
+        key=String.valueOf(System.currentTimeMillis());
         exam_type=findViewById(R.id.exam_type);
         book_photo=findViewById(R.id.book_photo);
         rating=findViewById(R.id.reuse_rating);
@@ -505,8 +617,10 @@ public class AddBooks extends AppCompatActivity {
     }
     public void submit(View view)
     {
-        if(validate())
-            Toast.makeText(this,"done",Toast.LENGTH_LONG).show();
+        if(validate()) {
+            Toast.makeText(this, "done", Toast.LENGTH_LONG).show();
+            upload();
+        }
 
 
 
@@ -574,6 +688,8 @@ public class AddBooks extends AppCompatActivity {
             }
 
         }}
+
+
 
 
     }
