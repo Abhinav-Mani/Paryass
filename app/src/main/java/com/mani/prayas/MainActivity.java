@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mAuth=FirebaseAuth.getInstance();
         bottomNavigation=findViewById(R.id.navigationView);
+
         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         BooksAvailable booksAvailable=new BooksAvailable();
         fragmentTransaction.add(R.id.container,booksAvailable);
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.commit();
                         break;
                     case R.id.navigation_addbook:
+
                         YourBooks yourBooks=new YourBooks();
                         fragmentTransaction.replace(R.id.container,yourBooks);
                         fragmentTransaction.commit();
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.commit();
                         break;
                     case R.id.ebooks:
+
                         Ebooks ebooks=new Ebooks();
                         fragmentTransaction.replace(R.id.container,ebooks);
                         fragmentTransaction.commit();
