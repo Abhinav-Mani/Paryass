@@ -66,6 +66,7 @@ public class AddBooks extends AppCompatActivity {
     private int flag=0,dater=0;
     private Camera mCamera;
     ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
+    boolean valid=true;
     DatePickerDialog.OnDateSetListener dateSetListener;
 
 
@@ -403,7 +404,7 @@ public class AddBooks extends AppCompatActivity {
                 android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                 dateSetListener,
                 year,month,day);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue)));
         dialog.show();
 
     }
@@ -425,10 +426,12 @@ public class AddBooks extends AppCompatActivity {
 
 
 
-    public void validate()
+    public boolean validate()
     {
+
         if(name.getText().toString().isEmpty())
         {
+
             name_layout.setError("Name of book cannot be left blank");}
         else
             name_layout.setError(null);
@@ -492,11 +495,18 @@ public class AddBooks extends AppCompatActivity {
             snackbar.show();
         }
 
+        if((!name.getText().toString().isEmpty())&&(!author.getText().toString().isEmpty())&&(!exam_type.getSelectedItem().toString().equals("SELECT EXAM"))&&(!subject.getSelectedItem().toString().equals("SELECT SUBJECT"))&&(!rating.getSelectedItem().toString().equals("REUSABILITY RATING"))&&(!state.getSelectedItem().toString().equals("SELECT STATE"))&&(!city.getSelectedItem().toString().equals("SELECT CITY"))&&(donate.isChecked()==true||sell.isChecked()==true)&&dater!=0&&flag!=0&&privacy.isChecked()==true)
+            return true;
+        else
+            return false;
+
+
 
     }
     public void submit(View view)
     {
-        validate();
+        if(validate())
+            Toast.makeText(this,"done",Toast.LENGTH_LONG).show();
 
 
 
