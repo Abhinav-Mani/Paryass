@@ -5,6 +5,20 @@
     <string name="hello_blank_fragment">this fragment chat List</string>
     <string name="hello_blank_fragment2">this fragment available books List</string>
     <string name="hello_blank_fragment3">this fragment your book List</string>
+    <string name="bookcover">ADD BOOK COVER</string>
+    <string name="bookname">Enter the name of book</string>
+    <string name="authorname">Enter the name of author</string>
+    <string name="donate">Donate</string>
+    <string name="sell">Sell</string>
+    <string name="publishdate">Select publish date</string>
+    <string name="reusea">Tap to know more:The reusability scale is the measure of state of book.Rate your product on a scale of 1-10 sighting its present condition.It should be filled with honesty.A new book has a rating of 10 while a book more than 10 years old has a scale of 1</string>
+    <string name="pic">Tap to know more:Please add three photos of different pages of the book.These photos will be accessible by the customers.</string>
+    <string name="policy">We have access to your email,your location,your search history.This is in order to provide you a better user experience and more features.We do not share these critical informations specifically with any third party without your permissions but we use these data for a better app experience.You allow us to have access to these data.</string>
+    <string name="agree">You agree to our Terms of Use and Privacy policy</string>
+    <string name="nameerror">Name of book cannot be left blank</string>
+    <string name="authorerror">Author of book cannot be left blank</string>
+    <string name="add">ADD BOOK</string>
+    <string name="agreewarn">Agree to our privacy policy to proceed</string>
     <string-array name="select">
         <item>SELECT SUBJECT</item>
     </string-array>
@@ -363,7 +377,7 @@
         <item>Pundri</item>
         <item>Kosli</item>
     </string-array>
-    <string-array name= "himachal_pradesh_cities">
+    <string-array name="himachal_pradesh_cities">
         <item>SELECT CITY</item>
         <item>Bilaspur</item>
         <item>Chamba</item>
@@ -810,65 +824,65 @@
 
     <string-array name="state_list">
 
-<item>SELECT STATE</item>
-<item>Andhra Pradesh</item>
+        <item>SELECT STATE</item>
+        <item>Andhra Pradesh</item>
 
-<item>Arunachal Pradesh</item>
+        <item>Arunachal Pradesh</item>
 
-<item>Assam</item>
+        <item>Assam</item>
 
-<item>Bihar</item>
+        <item>Bihar</item>
 
-<item>Chhattisgarh</item>
+        <item>Chhattisgarh</item>
 
-<item>Goa</item>
+        <item>Goa</item>
 
-<item>Gujarat</item>
+        <item>Gujarat</item>
 
-<item>Haryana</item>
+        <item>Haryana</item>
 
-<item>Himachal Pradesh</item>
+        <item>Himachal Pradesh</item>
 
-<item>Jammu and Kashmir</item>
+        <item>Jammu and Kashmir</item>
 
-<item>Jharkhand</item>
+        <item>Jharkhand</item>
 
-<item>Karnataka</item>
+        <item>Karnataka</item>
 
-<item>Kerala</item>
+        <item>Kerala</item>
 
-<item>Madhya Pradesh</item>
+        <item>Madhya Pradesh</item>
 
-<item>Maharashtra</item>
+        <item>Maharashtra</item>
 
-<item>Manipur</item>
+        <item>Manipur</item>
 
-<item>Meghalaya</item>
+        <item>Meghalaya</item>
 
-<item>Mizoram</item>
+        <item>Mizoram</item>
 
-<item>Nagaland</item>
+        <item>Nagaland</item>
 
-<item>Odisha</item>
+        <item>Odisha</item>
 
-<item>Punjab</item>
+        <item>Punjab</item>
 
-<item>Rajasthan</item>
+        <item>Rajasthan</item>
 
-<item>Sikkim</item>
+        <item>Sikkim</item>
 
-<item>Tamil Nadu</item>
+        <item>Tamil Nadu</item>
 
-<item>Telangana</item>
+        <item>Telangana</item>
 
-<item>Tripura</item>
+        <item>Tripura</item>
 
-<item>Uttar Pradesh</item>
+        <item>Uttar Pradesh</item>
 
-<item>Uttarakhand</item>
+        <item>Uttarakhand</item>
 
-<item>West Bengal</item>
+        <item>West Bengal</item>
 
-</string-array>
+    </string-array>
 
 </resources>

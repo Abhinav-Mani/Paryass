@@ -41,6 +41,7 @@ public class RecyclerViewAdapterBooks extends RecyclerView.Adapter<RecyclerViewA
         Log.d("ak47", "onBindViewHolder: "+list.get(i).get("Title"));
         viewHolder.bookname.setText(list.get(i).get("Title"));
         viewHolder.author.setText(list.get(i).get("Author"));
+        viewHolder.status.setText(list.get(i).get("Pref"));
         Glide.with(context).asBitmap().load(list.get(i).get("Cover")).transform(new RoundedCorners(4)).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(viewHolder.cover);
 
     }
@@ -52,13 +53,14 @@ public class RecyclerViewAdapterBooks extends RecyclerView.Adapter<RecyclerViewA
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView author,bookname;
+        TextView author,bookname,status;
         ImageView cover;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             author=itemView.findViewById(R.id.single_book_author);
             bookname=itemView.findViewById(R.id.single_book_name);
             cover=itemView.findViewById(R.id.single_book_image);
+            status=itemView.findViewById(R.id.status);
         }
     }
 }

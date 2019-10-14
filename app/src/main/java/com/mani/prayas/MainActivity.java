@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mani.prayas.NavigationFragments.BooksAvailable;
 import com.mani.prayas.NavigationFragments.Chats;
+import com.mani.prayas.NavigationFragments.Ebooks;
 import com.mani.prayas.NavigationFragments.YourBooks;
 import com.mani.prayas.Support.Login;
 
@@ -116,19 +117,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
     private void nav() {
 
-        bottomNavigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 FragmentManager fragmentManager=getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
 
                 switch (menuItem.getItemId())
                 {
                     case R.id.navigation_book:
-
                         BooksAvailable booksAvailable=new BooksAvailable();
                         fragmentTransaction.replace(R.id.container,booksAvailable);
                         fragmentTransaction.commit();
@@ -145,12 +147,21 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.container,chats);
                         fragmentTransaction.commit();
                         break;
+                    case R.id.ebooks:
+
+                        Ebooks ebooks=new Ebooks();
+                        fragmentTransaction.replace(R.id.container,ebooks);
+                        fragmentTransaction.commit();
+                        break;
+
 
                 }
+                return true;
 
             }
         });
     }
+
 
 
 }

@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +58,7 @@ public class YourBooks extends Fragment {
         intit(vh);
         return vh;
     }
+
 
     private void intit(View vh) {
         addBooks=vh.findViewById(R.id.addbooks);

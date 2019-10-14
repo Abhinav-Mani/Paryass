@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
@@ -24,7 +26,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -62,6 +68,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -403,6 +410,7 @@ public class AddBooks extends AppCompatActivity {
 
             }
 
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -496,13 +504,47 @@ public class AddBooks extends AppCompatActivity {
     }
     public void expand()
     {
-        String reusee="Tap to know more:The reusability scale is the measure of state of book.Rate your product on a scale of 1-10 sighting its present condition.It should be filled with honesty.A new book has a rating of 10 while a book more than 10 years old has a scale of 1";
-        expandableTextView.setText(reusee);
-        String pic="Tap to know more:Please add three photos of different pages of the book.These photos will be accessible by the customers.";
-        expandableTextView2.setText(pic);
+        // reusee="Tap to know more:The reusability scale is the measure of state of book.Rate your product on a scale of 1-10 sighting its present condition.It should be filled with honesty.A new book has a rating of 10 while a book more than 10 years old has a scale of 1";
+        expandableTextView.setText(getResources().getString(R.string.reusea));
+        //  String pic="Tap to know more:Please add three photos of different pages of the book.These photos will be accessible by the customers.";
+        expandableTextView2.setText(getResources().getString(R.string.pic));
         String priv="We have access to your email,your location,your search history.This is in order to provide you a better user experience and more features.We do not share these critical informations specifically with any third party without your permissions but we use these data for a better app experience.You allow us to have access to these data.";
-        expandableTextView3.setText(priv);
+        expandableTextView3.setText(getResources().getString(R.string.policy));
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.language,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.English:
+                setLocale("en");
+
+                break;
+            case R.id.Hindi:
+                setLocale("hi");
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, AddBooks.class);
+        finish();
+        startActivity(refresh);
+    }
+
+
 
     public void date(View view)
     {
@@ -533,22 +575,17 @@ public class AddBooks extends AppCompatActivity {
             }
         };
     }
-
-
-
-
-
     public boolean validate()
     {
 
         if(name.getText().toString().isEmpty())
         {
 
-            name_layout.setError("Name of book cannot be left blank");}
+            name_layout.setError(getResources().getString(R.string.nameerror));}
         else
             name_layout.setError(null);
         if(author.getText().toString().isEmpty())
-            author_layout.setError("Author of book cannot be left blank");
+            author_layout.setError(getResources().getString(R.string.authorerror));
         else
             author_layout.setError(null);
         if(exam_type.getSelectedItem().toString().equals("SELECT EXAM")) {
@@ -585,9 +622,9 @@ public class AddBooks extends AppCompatActivity {
             radio_error.setError("sels");
         else
             radio_error.setError(null);
-        LinearLayout add=findViewById(R.id.add_book);
+        LinearLayout add=findViewById(R.id.book_add);
         if(dater==0)
-        date_error.setError("jai hind");
+            date_error.setError("jai hind");
         else
             date_error.setError(null);
 
@@ -601,7 +638,7 @@ public class AddBooks extends AppCompatActivity {
             book_error.setError(null);
         if(privacy.isChecked()==false)
         {
-            Snackbar snackbar=Snackbar.make(add, "Agree to our privacy policy to proceed", Snackbar.LENGTH_LONG);
+            Snackbar snackbar=Snackbar.make(add, getResources().getString(R.string.agreewarn), Snackbar.LENGTH_LONG);
             View snak=snackbar.getView();
             snak.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.blue));
             snackbar.show();
@@ -615,6 +652,12 @@ public class AddBooks extends AppCompatActivity {
 
 
     }
+
+
+
+
+
+
     public void submit(View view)
     {
         if(validate()) {

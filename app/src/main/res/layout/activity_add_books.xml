@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Support.AddBooks"
-    android:id="@+id/add_book"
+    android:id="@+id/book_add"
     android:orientation="vertical">
 
     <LinearLayout
@@ -44,7 +44,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="                  ADD BOOK COVER"
+                    android:text="@string/bookcover"
                     android:textColor="#3895d3"
                     android:textSize="20dp"
                     android:id="@+id/book_error"
@@ -64,6 +64,7 @@
                 <com.mani.prayas.Support.ExpandableTextView
                     android:id="@+id/pics"
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content">
 
                 </com.mani.prayas.Support.ExpandableTextView>
@@ -142,7 +143,7 @@
                             android:id="@+id/book_name"
                             android:textColor="#000000"
                             android:inputType="text"
-                            android:hint="Enter the name of book">
+                            android:hint="@string/bookname">
 
                         </android.support.design.widget.TextInputEditText>
 
@@ -162,7 +163,7 @@
                             android:id="@+id/author_name"
                             android:textColor="#000000"
                             android:inputType="text"
-                            android:hint="Enter the name of author">
+                            android:hint="@string/authorname">
 
                         </android.support.design.widget.TextInputEditText>
 
@@ -178,7 +179,7 @@
                             android:layout_marginBottom="30dp"
                             android:onClick="date"
                             android:textSize="18sp"
-                            android:text="Select publish date">
+                            android:text="@string/publishdate">
 
                         </TextView>
                         <TextView
@@ -237,7 +238,7 @@
                         </Spinner>
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_marginTop="40dp"
+                            android:layout_marginTop="10dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/exam_error">
 
@@ -257,6 +258,7 @@
 
                         </Spinner>
                         <TextView
+                            android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_height="wrap_content"
@@ -352,7 +354,7 @@
                 android:layout_height="wrap_content">
                 <com.mani.prayas.Support.ExpandableTextView
                     android:id="@+id/reuse"
-                    android:text="..."
+                    android:text="@string/reusea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -385,7 +387,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="40dp"
                             android:layout_marginTop="20dp"
-                            android:text="Donate">
+                            android:text="@string/donate">
 
                         </android.support.v7.widget.AppCompatRadioButton>
 
@@ -396,7 +398,7 @@
                             android:layout_marginLeft="40dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="20dp"
-                            android:text="Sell">
+                            android:text="@string/sell">
 
                         </android.support.v7.widget.AppCompatRadioButton>
                     </RadioGroup>
@@ -440,7 +442,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="You agree to our Terms of Use and Privacy policy">
+                        android:text="@string/agree">
 
                     </TextView>
 
@@ -467,7 +469,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ADD BOOK"
+                android:text="@string/add"
                 android:onClick="submit"
 
                 android:textColor="@color/white"
