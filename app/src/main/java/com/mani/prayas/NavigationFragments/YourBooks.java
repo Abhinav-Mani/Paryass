@@ -4,14 +4,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mani.prayas.Adapter.RecyclerViewAdapterBooks;
+import com.mani.prayas.Adapter.RecyclerViewAdapterMyBooks;
 import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class YourBooks extends Fragment {
@@ -24,6 +40,13 @@ public class YourBooks extends Fragment {
 
 
     FloatingActionButton addBooks;
+
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    RecyclerViewAdapterMyBooks recyclerViewAdapterMyBooks;
+
+    private FirebaseDatabase database ;
+    private DatabaseReference myRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +63,58 @@ public class YourBooks extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(),com.mani.prayas.Support.AddBooks.class));
+
+            }
+        });
+        final ArrayList<Map<String,String>> list=new ArrayList<Map<String,String>>();
+        recyclerView=vh.findViewById(R.id.yourbookrecyclerview);
+        linearLayoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerViewAdapterMyBooks=new RecyclerViewAdapterMyBooks(list,getContext());
+        recyclerView.setAdapter(recyclerViewAdapterMyBooks);
+        database = FirebaseDatabase.getInstance();
+        String email=String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        myRef = database.getReference(email.substring(0,email.indexOf('@')));
+        final DatabaseReference reference=database.getReference();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
+                Log.d("ak47", "onDataChange:-> "+dataSnapshot.getKey());
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
+                {
+                    Log.d("ak47", dataSnapshot1.getKey()+"onDataChange:-> "+dataSnapshot1.getValue());
+                    reference.child(dataSnapshot1.getKey()).child((String) dataSnapshot1.getValue()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Map<String, String> mp= new HashMap<>();
+                            for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
+                            {
+                                //dataSnapshot.getKey();
+
+                                mp.put(dataSnapshot1.getKey(),(String) dataSnapshot1.getValue());
+                                Log.d("ak47", "onDataChange: "+dataSnapshot1.getKey()+"->"+dataSnapshot1.getValue());
+
+                            }
+                            Log.e("ak47", "value added");
+                            list.add(mp);
+                            Log.e("ak47", "onDataChange:title:- "+mp.get("Title") );
+                            Log.e("ak47", "onDataChange: notified" );
+                            recyclerViewAdapterMyBooks.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
