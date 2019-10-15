@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/books"
     tools:context=".NavigationFragments.BooksAvailable">
 
     <!-- TODO: Update blank fragment layout -->
@@ -49,6 +50,8 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
             android:text="SEARCH"
+            android:id="@+id/search"
+            android:onClick="search"
             android:background="@color/blue"
             >
 

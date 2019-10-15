@@ -255,8 +255,10 @@ public class BooksAvailable extends Fragment {
                 });
 
 
+
                 return vh;
             }
+
         }
 
 
