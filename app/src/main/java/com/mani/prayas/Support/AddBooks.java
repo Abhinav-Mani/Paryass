@@ -1,47 +1,212 @@
 package com.mani.prayas.Support;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Camera;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.renderscript.Sampler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class AddBooks extends AppCompatActivity {
-    Spinner exam_type,rating,subject;
-    ArrayAdapter exam,rate,sub;
+    Spinner exam_type,rating,subject,state,city;
+    ArrayAdapter exam,rate,sub,stat,cit;
     ImageView book_photo,img1,img2,img3;
-    TextView publish;
+    TextView publish,exam_error,sub_error,reuse_error,radio_error,book_error,date_error,state_error,city_error;
+    TextInputEditText name,author;
+    TextInputLayout name_layout,author_layout;
+    RadioButton donate,sell;
+    CheckBox privacy;
+    private int flag=0,dater=0;
+    String key;
+    private Camera mCamera;
     ExpandableTextView expandableTextView,expandableTextView2,expandableTextView3;
+    boolean valid=true;
     DatePickerDialog.OnDateSetListener dateSetListener;
+
+
+    //upload@abhinavmani
+
+    private StorageReference mStorageRef;
+    private FirebaseDatabase database ;
+    private DatabaseReference myRef,databaseReference;
+
+
+
+
+    void upload()
+    {
+        String bookName="",authorName="",PublishDate="",subject="",exam="",city=this.city.getSelectedItem().toString(),
+                resusabilityRating="",pref="sell";
+        bookName=name.getText().toString();
+        authorName=author.getText().toString().trim();
+        exam=exam_type.getSelectedItem().toString();
+        subject=this.subject.getSelectedItem().toString();
+        resusabilityRating=rating.getSelectedItem().toString();
+        if(donate.isChecked())
+            pref="donate";
+        Bitmap mainImage=((BitmapDrawable)book_photo.getDrawable()).getBitmap();
+        String emailid=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+
+        Log.e("ak47", "upload: " );
+        final Map<String,Object> bookdata=new HashMap<>();
+        bookdata.put("Email",emailid);
+        bookdata.put("Title",bookName);
+        bookdata.put("Author",authorName);
+        bookdata.put("DateOFPublish",PublishDate);
+        bookdata.put("Subject",subject);
+        bookdata.put("Exam",exam);
+        bookdata.put("Rating",resusabilityRating);
+        bookdata.put("Pref",pref);
+
+        final Uri[] imguri = new Uri[4];
+
+        mStorageRef= FirebaseStorage.getInstance().getReference().child(key);
+        database = FirebaseDatabase.getInstance();
+        databaseReference=database.getReference();
+        myRef = databaseReference.child(city).child(key);
+
+
+        databaseReference.child(emailid.substring(0,emailid.indexOf('@'))).child(city).setValue(key);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        mainImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask mainImageUpload=mStorageRef.child("Cover").putBytes(data);
+        mainImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.e("ak47", "onSuccess: upload sucess" );
+                mStorageRef.child("Cover").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imguri[0] =uri;
+                        bookdata.put("Cover",String.valueOf(imguri[0]));
+                        Log.e("ak47", "onSuccess: "+String.valueOf(imguri[0]) );
+                        myRef.updateChildren(bookdata).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AddBooks.this,"Upload Sucess",Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddBooks.this,"UploadFailed",Toast.LENGTH_LONG).show();
+                                Log.e("ak47", "onFailure: upload" );
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddBooks.this,"Couldnot Fetch uri",Toast.LENGTH_LONG).show();
+                                Log.e("ak47", "onFailure: uri" );
+                            }
+                        });
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddBooks.this,"Aww! Snap !!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.mani.prayas.R.layout.activity_add_books);
+
+
         init();
+        setCity();
         expand();
         spinnerExamAndRating();
         setSubjects();
         dateChange();
 
     }
+
+
+
     public void init()
     {
+
+        key=String.valueOf(System.currentTimeMillis());
         exam_type=findViewById(R.id.exam_type);
         book_photo=findViewById(R.id.book_photo);
         rating=findViewById(R.id.reuse_rating);
@@ -53,15 +218,196 @@ public class AddBooks extends AppCompatActivity {
         expandableTextView=findViewById(R.id.reuse);
         expandableTextView2=findViewById(R.id.pics);
         expandableTextView3=findViewById(R.id.privacy);
+        name=findViewById(R.id.book_name);
+        author=findViewById(R.id.author_name);
+        name_layout=findViewById(R.id.book_name_layout);
+        author_layout=findViewById((R.id.author_name_layout));
+        exam_error=findViewById(R.id.exam_error);
+        sub_error=findViewById(R.id.sub_error);
+        date_error=findViewById(R.id.date_error);
+        reuse_error=findViewById(R.id.reuse_error);
+        donate=findViewById(R.id.donate);
+        sell=findViewById(R.id.sell);
+        radio_error=findViewById(R.id.radio_error);
+        privacy=findViewById(R.id.privacy_policy);
+        book_error=findViewById(R.id.book_error);
+        state=findViewById(R.id.state);
+        city=findViewById(R.id.city);
+        state_error=findViewById(R.id.state_error);
+        city_error=findViewById(R.id.city_error);
     }
     public void spinnerExamAndRating()
     {
         exam=ArrayAdapter.createFromResource(this,R.array.exam_type,android.R.layout.simple_spinner_item);
         exam.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         exam_type.setAdapter(exam);
+        stat=ArrayAdapter.createFromResource(this,R.array.state_list,android.R.layout.simple_spinner_item);
+        stat.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        state.setAdapter(stat);
         rate=ArrayAdapter.createFromResource(this,R.array.rating,android.R.layout.simple_spinner_item);
         rate.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         rating.setAdapter(rate);
+    }
+    public void setCity()
+    {
+        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position)
+                { case 0:
+                    cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.selectCity,android.R.layout.simple_spinner_item);
+                    cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    city.setAdapter(cit);
+                    break;
+
+                    case 1:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.andhra_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+
+                    case 2:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.arunachal_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 3:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.assam_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 4:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.Bihar,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 5:
+                        cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.Chhatisgarh,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 6: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.goa_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 7: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.gujarat_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 8: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.haryana_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 9: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.himachal_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 10: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.jammu_and_kashmir_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 11: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.jharkhand_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 12: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.karnataka_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 13: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.kerala_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+                    case 14: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.madhya_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 15: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.maharashtra_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 16: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.manipur_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 17: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.meghalaya_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 18: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.mizoram_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 19: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.nagaland_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 20: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.odisha_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 21: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.punjab_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 22: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.rajasthan_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 23: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.sikkim_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 24: cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.tamil_nadu_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 25:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.telangana_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 26:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.tripura_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 27:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.uttar_pradesh_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 28:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.uttrakhand_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+                    case 29:cit=ArrayAdapter.createFromResource(AddBooks.this,R.array.west_bengal_cities,android.R.layout.simple_spinner_item);
+                        cit.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        city.setAdapter(cit);
+                        break;
+
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     public void setSubjects()
     {
@@ -170,31 +516,132 @@ public class AddBooks extends AppCompatActivity {
                 android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                 dateSetListener,
                 year,month,day);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue)));
         dialog.show();
 
     }
     public void dateChange()
     {
+
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                // Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
-
                 String date = month + "/" + year;
                 publish.setText(date);
+                dater=1;
             }
         };
     }
 
 
+
+
+
+    public boolean validate()
+    {
+
+        if(name.getText().toString().isEmpty())
+        {
+
+            name_layout.setError("Name of book cannot be left blank");}
+        else
+            name_layout.setError(null);
+        if(author.getText().toString().isEmpty())
+            author_layout.setError("Author of book cannot be left blank");
+        else
+            author_layout.setError(null);
+        if(exam_type.getSelectedItem().toString().equals("SELECT EXAM")) {
+            // exam_error.setTextColor(Color.RED);
+            exam_error.setError("Exam type not selected");
+        }
+        else
+            exam_error.setError(null);
+        if(subject.getSelectedItem().toString().equals("SELECT SUBJECT")) {
+            // sub_error.setTextColor(Color.RED);
+            sub_error.setError("Exam type not selected");
+        }
+        else
+            sub_error.setError(null);
+        if(rating.getSelectedItem().toString().equals("REUSABILITY RATING")) {
+            // reuse_error.setTextColor(Color.RED);
+            reuse_error.setError("Exam type not selected");
+        }
+        else
+            reuse_error.setError(null);
+        if(state.getSelectedItem().toString().equals("SELECT STATE")) {
+            // reuse_error.setTextColor(Color.RED);
+            state_error.setError("Exam type not selected");
+        }
+        else
+            state_error.setError(null);
+        if(city.getSelectedItem().toString().equals("SELECT CITY")) {
+            // reuse_error.setTextColor(Color.RED);
+            city_error.setError("Exam type not selected");
+        }
+        else
+            city_error.setError(null);
+        if(donate.isChecked()==false&&sell.isChecked()==false)
+            radio_error.setError("sels");
+        else
+            radio_error.setError(null);
+        LinearLayout add=findViewById(R.id.add_book);
+        if(dater==0)
+        date_error.setError("jai hind");
+        else
+            date_error.setError(null);
+
+
+        if(flag==0)
+        {
+            book_error.setError("Cover photo is mandatory");
+
+        }
+        else
+            book_error.setError(null);
+        if(privacy.isChecked()==false)
+        {
+            Snackbar snackbar=Snackbar.make(add, "Agree to our privacy policy to proceed", Snackbar.LENGTH_LONG);
+            View snak=snackbar.getView();
+            snak.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.blue));
+            snackbar.show();
+        }
+
+        if((!name.getText().toString().isEmpty())&&(!author.getText().toString().isEmpty())&&(!exam_type.getSelectedItem().toString().equals("SELECT EXAM"))&&(!subject.getSelectedItem().toString().equals("SELECT SUBJECT"))&&(!rating.getSelectedItem().toString().equals("REUSABILITY RATING"))&&(!state.getSelectedItem().toString().equals("SELECT STATE"))&&(!city.getSelectedItem().toString().equals("SELECT CITY"))&&(donate.isChecked()==true||sell.isChecked()==true)&&dater!=0&&flag!=0&&privacy.isChecked()==true)
+            return true;
+        else
+            return false;
+
+
+
+    }
+    public void submit(View view)
+    {
+        if(validate()) {
+            Toast.makeText(this, "done", Toast.LENGTH_LONG).show();
+            upload();
+        }
+
+
+
+
+
+
+    }
+
+
     public void capture(View view) {
 
+        flag=1;
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager())!=null)
+        {
             startActivityForResult(intent,0);
+
+        }
+
+
     }
     public void image1(View view) {
 
@@ -221,19 +668,29 @@ public class AddBooks extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap b = (Bitmap) data.getExtras().get("data");
-        switch (requestCode){
-            case 0: book_photo.setImageBitmap(b);
-                break;
-            case 1:img1.setImageBitmap(b);
-                break;
-            case 2:
-                img2.setImageBitmap(b);
-                break;
-            case 3:
-                img3.setImageBitmap(b);
-                break;
-        }
+
+
+            if(data!=null){
+                Bitmap b=(Bitmap) data.getExtras().get("data");
+            switch (requestCode) {
+                case 0:
+                   book_photo.setImageBitmap(b);
+                    break;
+                case 1:
+                    img1.setImageBitmap(b);
+                    break;
+                case 2:
+                    img2.setImageBitmap(b);
+                    break;
+                case 3:
+                    img3.setImageBitmap(b);
+                    break;
+            }
+
+        }}
+
+
+
 
     }
-}
+
