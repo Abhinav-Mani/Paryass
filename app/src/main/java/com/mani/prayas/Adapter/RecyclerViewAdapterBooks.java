@@ -17,9 +17,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.mani.prayas.R;
+import com.mani.prayas.Support.BookDetails;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RecyclerViewAdapterBooks extends RecyclerView.Adapter<RecyclerViewAdapterBooks.ViewHolder>{
@@ -46,7 +48,15 @@ public class RecyclerViewAdapterBooks extends RecyclerView.Adapter<RecyclerViewA
         viewHolder.author.setText(list.get(i).get("Author"));
         viewHolder.status.setText(list.get(i).get("Pref"));
         Glide.with(context).asBitmap().load(list.get(i).get("Cover")).transform(new RoundedCorners(4)).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(viewHolder.cover);
+        viewHolder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent=new Intent(context, BookDetails.class);
+                intent.putExtra("bookdetails",(HashMap<String, String>) list.get(i));
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -57,6 +67,7 @@ public class RecyclerViewAdapterBooks extends RecyclerView.Adapter<RecyclerViewA
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout item;
         TextView author,bookname,status;
         ImageView cover;
         FrameLayout frameLayout;
@@ -67,6 +78,7 @@ public class RecyclerViewAdapterBooks extends RecyclerView.Adapter<RecyclerViewA
             cover=itemView.findViewById(R.id.single_book_image);
             status=itemView.findViewById(R.id.status);
             frameLayout=itemView.findViewById(R.id.books);
+            item=itemView.findViewById(R.id.single_book_item);
 
         }
     }
