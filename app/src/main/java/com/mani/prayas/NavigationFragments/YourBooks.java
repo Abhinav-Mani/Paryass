@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +59,7 @@ public class YourBooks extends Fragment {
         return vh;
     }
 
+
     private void intit(View vh) {
         addBooks=vh.findViewById(R.id.addbooks);
         addBooks.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +87,7 @@ public class YourBooks extends Fragment {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
                 {
                     Log.d("ak47", dataSnapshot1.getKey()+"onDataChange:-> "+dataSnapshot1.getValue());
-                    reference.child(dataSnapshot1.getKey()).child((String) dataSnapshot1.getValue()).addValueEventListener(new ValueEventListener() {
+                    reference.child((String) dataSnapshot1.getValue()).child(dataSnapshot1.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Map<String, String> mp= new HashMap<>();
@@ -97,6 +100,7 @@ public class YourBooks extends Fragment {
 
                             }
                             Log.e("ak47", "value added");
+                            if(mp.get("Title")!=null)
                             list.add(mp);
                             Log.e("ak47", "onDataChange:title:- "+mp.get("Title") );
                             Log.e("ak47", "onDataChange: notified" );
