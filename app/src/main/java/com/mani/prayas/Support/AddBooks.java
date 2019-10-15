@@ -132,7 +132,7 @@ public class AddBooks extends AppCompatActivity {
         myRef = databaseReference.child(city).child(key);
 
 
-        databaseReference.child(emailid.substring(0,emailid.indexOf('@'))).child(city).setValue(key);
+        databaseReference.child(emailid.substring(0,emailid.indexOf('@'))).child(key).setValue(city);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mainImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);

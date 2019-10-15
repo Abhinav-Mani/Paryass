@@ -16,8 +16,10 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,11 +32,13 @@ import com.mani.prayas.R;
 import com.mani.prayas.Support.AddBooks;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BooksAvailable extends Fragment {
     RecyclerView recyclerView;
     Spinner state_search,city_search,exam_type_search;
+    Button search;
     ArrayAdapter stat,cit,exam;
 
     LinearLayoutManager linearLayoutManager;
@@ -42,6 +46,7 @@ public class BooksAvailable extends Fragment {
 
     private FirebaseDatabase database ;
     private DatabaseReference myRef;
+
 
     public BooksAvailable() {
 
@@ -226,33 +231,67 @@ public class BooksAvailable extends Fragment {
                 exam.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                 exam_type_search.setAdapter(exam);
                 setCity();
+
+                search=vh.findViewById(R.id.search);
                 recyclerView = vh.findViewById(R.id.available_book_list);
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 final RecyclerViewAdapterBooks adapterBooks = new RecyclerViewAdapterBooks(list, getContext());
                 recyclerView.setAdapter(adapterBooks);
+                city_search=vh.findViewById(R.id.citySearch);
+                exam_type_search=vh.findViewById(R.id.exam_type_search);
 
-
-                database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("Jamshedpur");
-
-                myRef.addValueEventListener(new ValueEventListener() {
+                search.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    public void onClick(View v) {
                         list.clear();
-                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                            list.add((Map<String, String>) dataSnapshot1.getValue());
-                            Log.d("ak47", "onDataChange: " + dataSnapshot.getKey() + "->" + dataSnapshot.getValue());
-                            dataSnapshot.getKey();
-                        }
-                        Log.e("ak47", list.get(0).get("Title") + "onDataChange: " + list.size());
-                        adapterBooks.notifyDataSetChanged();
-                    }
+                        Toast.makeText(getContext(),city_search.getSelectedItem().toString()+" "+exam_type_search.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
+                        Log.d("ak47", "onClick: ");
+                        database = FirebaseDatabase.getInstance();
+                        String city=city_search.getSelectedItem().toString();
+                        if(city.equalsIgnoreCase("SELECT CITY"))
+                           myRef = database.getReference("Jamshedpur");
+                        else
+                            myRef=database.getReference(city);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        myRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                list.clear();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Map<String ,String> mp=new HashMap<>();
+                                    String exam=exam_type_search.getSelectedItem().toString();
+                                    mp=(Map<String, String>) dataSnapshot1.getValue();
+
+                                    if(mp.get("Exam").equalsIgnoreCase(exam)||exam.equalsIgnoreCase("Select Exam"))
+                                    {
+                                        Log.d("ak47", "onDataChange: "+mp.get("Exam")+" "+exam );
+                                        list.add(mp);
+                                    }
+                                    else
+                                    {
+                                        Log.e("ak47", "onDataChange: "+mp.get("Exam")+" "+exam );
+                                    }
+
+                                    Log.d("ak47", "onDataChange: " + dataSnapshot.getKey() + "->" + dataSnapshot.getValue());
+                                    dataSnapshot.getKey();
+                                }
+                                //Log.e("ak47", list.get(0).get("Title") + "onDataChange: " + list.size());
+                                adapterBooks.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
 
                     }
                 });
+
+
+
 
 
 
