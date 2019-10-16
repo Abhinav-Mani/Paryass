@@ -1,5 +1,6 @@
 package com.mani.prayas.Support;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
+
+import org.xml.sax.DTDHandler;
 
 import java.util.HashMap;
 
@@ -57,6 +60,15 @@ public class BookDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(BookDetails.this,"Contact",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(BookDetails.this,ChatBox.class);
+                HashMap<String,String> data = new HashMap<String,String >();
+                Log.d("ak47", "onClick: "+info.get("Title")+" "+info.get("Cover")+" "+info.get("Email").substring(0,info.get("Email").indexOf('@')));
+                data.put("Title",info.get("Title"));
+                data.put("Cover",info.get("Cover"));
+                data.put("Source","0");
+                data.put("User",info.get("Email").substring(0,info.get("Email").indexOf('@')));
+                intent.putExtra("Data",data);
+                startActivity(intent);
             }
         });
 

@@ -3,15 +3,36 @@ package com.mani.prayas.NavigationFragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mani.prayas.Adapter.RecyclerViewChatList;
 import com.mani.prayas.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Chats extends Fragment {
+    ArrayList<Map<String,String>> contacts=new ArrayList<Map<String, String>>();
+
+    private FirebaseDatabase database ;
+    private DatabaseReference myRef;
+
+    RecyclerViewChatList recyclerViewChatList;
 
     public Chats() {
     }
@@ -24,12 +45,55 @@ public class Chats extends Fragment {
                              Bundle savedInstanceState) {
 
         View vh= inflater.inflate(R.layout.fragment_chats, container, false);
+        intit(vh);
+        getdata();
+
+
         return vh;
     }
 
+    private void getdata() {
+        Log.d("ak47", "getdata: " );
+        String c=FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+        String currentUser=c.substring(0,c.indexOf('@'));
+        database = FirebaseDatabase.getInstance();
+        String email=String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        myRef = database.getReference().child("Communication").child(currentUser).child("Contacts");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String,String> mp=new HashMap<String,String>();
+                contacts.clear();
+                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
+                {
+                    String user=dataSnapshot1.getKey();
+                    for (DataSnapshot dataSnapshot2:dataSnapshot1.getChildren())
+                    {
+                        String Title=dataSnapshot2.getKey();
+                        String Cover=(String) dataSnapshot2.getValue();
+                        mp.put("Title",Title);
+                        mp.put("User",user);
+                        mp.put("Cover",Cover);
+                        Log.d("ak47", "onDataChange: "+mp);
+                    }
+                    contacts.add(mp);
+                }
+                recyclerViewChatList.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
 
+    private void intit(View vh) {
+        RecyclerView recyclerView=vh.findViewById(R.id.chatList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewChatList=new RecyclerViewChatList(contacts,getContext());
+        recyclerView.setAdapter(recyclerViewChatList);
+    }
 
 
 }
