@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mani.prayas.MainActivity;
 import com.mani.prayas.R;
 
@@ -37,6 +38,8 @@ public class BookDetails extends AppCompatActivity {
         pref=findViewById(R.id.bookdetailspref);
         button=findViewById(R.id.contactperson);
 
+
+
         if(getIntent().hasExtra("bookdetails"))
         {
             info=(HashMap<String,String>)getIntent().getSerializableExtra("bookdetails");
@@ -51,6 +54,11 @@ public class BookDetails extends AppCompatActivity {
             name.setText(info.get("Title"));
             author.setText(info.get("Author"));
             pref.setText(info.get("Pref"));
+            String currentUser= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            String user2=info.get("Email");
+
+            if(user2.equalsIgnoreCase(currentUser))
+                button.setVisibility(View.GONE);
         }
         else
         {
@@ -59,8 +67,11 @@ public class BookDetails extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Toast.makeText(BookDetails.this,"Contact",Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(BookDetails.this,ChatBox.class);
+
                 HashMap<String,String> data = new HashMap<String,String >();
                 Log.d("ak47", "onClick: "+info.get("Title")+" "+info.get("Cover")+" "+info.get("Email").substring(0,info.get("Email").indexOf('@')));
                 data.put("Title",info.get("Title"));
