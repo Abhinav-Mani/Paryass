@@ -13,9 +13,9 @@ public class Messege implements Comparable<Messege>{
     @Override
     public int compareTo(Messege o) {
         if(this.time<o.time)
-            return -1;
-        else if(this.time>o.time)
             return 1;
+        else if(this.time>o.time)
+            return -1;
         return 0;
     }
 

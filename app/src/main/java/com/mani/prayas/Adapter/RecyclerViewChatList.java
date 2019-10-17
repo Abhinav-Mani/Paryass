@@ -40,6 +40,7 @@ public class RecyclerViewChatList extends RecyclerView.Adapter<RecyclerViewChatL
 
     @Override
     public void onBindViewHolder(@NonNull ChatListViewHolder chatListViewHolder, int i) {
+        Log.d("logno", "onBindViewHolder: "+i+" "+contacts.get(i).get("Title"));
         final HashMap<String,String> data=new HashMap<String,String>();
         data.put("Title",contacts.get(i).get("Title"));
         data.put("Cover",contacts.get(i).get("Cover"));

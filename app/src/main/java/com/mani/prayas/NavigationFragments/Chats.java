@@ -62,7 +62,7 @@ public class Chats extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String,String> mp=new HashMap<String,String>();
+
                 contacts.clear();
                 for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
                 {
@@ -70,13 +70,16 @@ public class Chats extends Fragment {
                     for (DataSnapshot dataSnapshot2:dataSnapshot1.getChildren())
                     {
                         String Title=dataSnapshot2.getKey();
+                        HashMap<String,String> mp=new HashMap<String,String>();
                         String Cover=(String) dataSnapshot2.getValue();
                         mp.put("Title",Title);
                         mp.put("User",user);
                         mp.put("Cover",Cover);
-                        Log.d("ak47", "onDataChange: "+mp);
+                        Log.d("ak47", "onDataChange: "+mp+" added");
+                        contacts.add(mp);
+                        Log.d("logno", "onDataChange: "+contacts);
                     }
-                    contacts.add(mp);
+
                 }
                 recyclerViewChatList.notifyDataSetChanged();
             }

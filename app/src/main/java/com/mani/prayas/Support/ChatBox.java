@@ -121,7 +121,9 @@ public class ChatBox extends AppCompatActivity {
 
 
         RecyclerView recyclerView=findViewById(R.id.chatbox);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ChatBox.this));
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(ChatBox.this);
+        linearLayoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         chatAdapter=new RecyclerViewChatAdapter(messeges);
         recyclerView.setAdapter(chatAdapter);
 
